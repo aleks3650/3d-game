@@ -42,12 +42,14 @@ const App = () => {
           // maxPolarAngle={Math.PI / 6}
           // minPolarAngle={Math.PI / 2}
           minDistance={13}
-          maxDistance={13}
+          maxDistance={33}
           ref={controlsCamera}
           makeDefault
 
         />
-        <Physics gravity={[0, -10, 0]} debug>
+        <Physics gravity={[0, -10, 0]} 
+        // debug
+        >
           <Cube controlsCamera={controlsCamera} />
           <Surrounding />
         </Physics>
