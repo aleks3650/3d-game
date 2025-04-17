@@ -8,10 +8,8 @@ const Surrounding = () => {
     <>
       <Environment preset="sunset" />
       <Sky distance={4500} sunPosition={[0, 5, 1]} />
-
-      <CuboidCollider position={[-11.5, 8, 14.5]} args={[45, 0, 43.5]} />
-
       <City/>
+      {/* <City position={[90, 0,0]} /> */}
     </>
   );
 };

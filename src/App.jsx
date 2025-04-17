@@ -1,60 +1,75 @@
-import {
-  CameraControls,
-  Environment,
-  KeyboardControls,
-  Sky,
-  
-} from "@react-three/drei";
-import React, { useEffect, useRef } from "react";
+import { CameraControls, KeyboardControls, Loader } from "@react-three/drei";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Cube from "./Cube";
 import Surrounding from "./Surrounding";
 import { Physics } from "@react-three/rapier";
 import { controls } from "./assets/constants";
+import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import MenuOverlay from "./MenuOverlay";
+import CameraAnimator from "./CameraAnimator";
 
 const App = () => {
   const controlsCamera = useRef(null);
-  const cameraPosition = useRef(null);
+  const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    const checkCamera = () => {
-      const controls = controlsCamera.current;
-      if (controls?.camera) {
-        cameraPosition.current = controls.camera.position;
+    if (!gameStarted) return;
+    const animateCamera = () => {
+      if (controlsCamera.current) {
+        controlsCamera.current.setLookAt(12, 8, 12, 0, 0.5, 0, true);
       } else {
-        requestAnimationFrame(checkCamera);
+        requestAnimationFrame(animateCamera);
       }
     };
-
-    checkCamera();
-  }, []);
+    animateCamera();
+  }, [gameStarted]);
 
   return (
-    <KeyboardControls map={controls}>
-      <Canvas
-        style={{ height: "100dvh" }}
-        camera={{
-          position: [8, 6.5, 8],
-          fov: 75,
-        }}
-      >
-        <CameraControls
-          // maxPolarAngle={Math.PI / 6}
-          // minPolarAngle={Math.PI / 2}
-          minDistance={13}
-          maxDistance={33}
-          ref={controlsCamera}
-          makeDefault
-
-        />
-        <Physics gravity={[0, -10, 0]} 
-        // debug
+    <>
+      <KeyboardControls map={controls}>
+        {!gameStarted && <MenuOverlay onStart={() => setGameStarted(true)} />}
+        <Canvas
+          style={{ height: "100dvh" }}
+          camera={{
+            fov: 50,
+          }}
+          shadows
         >
-          <Cube controlsCamera={controlsCamera} />
-          <Surrounding />
-        </Physics>
-      </Canvas>
-    </KeyboardControls>
+          <EffectComposer>
+            <DepthOfField
+              focusDistance={0.01}
+              focalLength={gameStarted ? 0.07 : 0.02}
+              bokehScale={gameStarted ? 3 : 7}
+            />
+          </EffectComposer>
+
+          <Physics gravity={[0, -10, 0]}>
+            {!gameStarted ? (
+              <>
+                <CameraAnimator />
+                <Surrounding scale={0.8} position={[0, -2, 0]} />
+              </>
+            ) : (
+              <>
+                <CameraControls
+                  maxPolarAngle={Math.PI / 2}
+                  minDistance={13}
+                  maxDistance={33}
+                  ref={controlsCamera}
+                  makeDefault
+                />
+                <Suspense fallback={null}>
+                  <Cube controlsCamera={controlsCamera} />
+                  <Surrounding />
+                </Suspense>
+              </>
+            )}
+          </Physics>
+        </Canvas>
+      </KeyboardControls>
+      <Loader />
+    </>
   );
 };
 
