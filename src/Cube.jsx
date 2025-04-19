@@ -37,7 +37,7 @@ const Cube = (props) => {
 
     const velocity = rigidBody.current.linvel();
     const speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-    isMovingRef.current = speed > 0.1;
+    isMovingRef.current = speed > 1;
 
     if (!forward ) {
       controlsCamera.current.moveTo(x, y, z, true);

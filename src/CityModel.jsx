@@ -12,6 +12,7 @@ import { RigidBody } from "@react-three/rapier";
 
 export function City(props) {
   const { nodes, materials } = useGLTF("/City.glb");
+
   return (
     <RigidBody type="fixed" colliders='hull' >
       <group {...props} dispose={null}>

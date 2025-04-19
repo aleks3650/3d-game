@@ -8,10 +8,12 @@ import { controls } from "./assets/constants";
 import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
 import MenuOverlay from "./MenuOverlay";
 import CameraAnimator from "./CameraAnimator";
+import Gate from "./Gate";
 
 const App = () => {
   const controlsCamera = useRef(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [passedGates, setPassedGates] = useState([]);
 
   useEffect(() => {
     if (!gameStarted) return;
@@ -24,6 +26,11 @@ const App = () => {
     };
     animateCamera();
   }, [gameStarted]);
+
+  const handleAddScore = (i) => {
+    if (passedGates.includes(i)) return;
+    setPassedGates((prev) => [...prev, i]);
+  };
 
   return (
     <>
@@ -45,6 +52,7 @@ const App = () => {
           </EffectComposer>
 
           <Physics gravity={[0, -10, 0]}>
+          <Suspense fallback={null}>
             {!gameStarted ? (
               <>
                 <CameraAnimator />
@@ -59,14 +67,30 @@ const App = () => {
                   ref={controlsCamera}
                   makeDefault
                 />
-                <Suspense fallback={null}>
                   <Cube controlsCamera={controlsCamera} />
                   <Surrounding />
-                </Suspense>
+                  <Gate
+                    position={[0, 10, 0]}
+                    rotate={true}
+                    handleAddScore={handleAddScore}
+                    i={0}
+                  />
+                  <Gate
+                    position={[0, 10, -10]}
+                    rotate={false}
+                    handleAddScore={handleAddScore}
+                    i={1}
+                  />
               </>
             )}
+            </Suspense>
           </Physics>
         </Canvas>
+        {gameStarted && (
+          <div className="fixed top-2 right-2 text-2xl bg-amber-500 ">
+            Score: {passedGates.length}
+          </div>
+        )}
       </KeyboardControls>
       <Loader />
     </>
