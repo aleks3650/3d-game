@@ -16,12 +16,13 @@ const Cube = (props) => {
     const { forward, backward, left, right, jump } = get();
     const { x, y, z } = rigidBody.current.translation();
     const quaternion = rigidBody.current.rotation();
-    // console.log(quaternion)
-    // console.log(x,y,z,controlsCamera.current.camera.position)
     if (left && right) return;
-    if (y < -50) {
-      rigidBody.current.setTranslation({ x: 0, y: 30, z: 0 });
-      rigidBody.current.setLinvel({ x: 0, y: 0, z: 0 });
+
+    if (y < -30) {
+      rigidBody.current.setTranslation({ x: 26, y: 20, z: -15 }, true);
+      rigidBody.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+      rigidBody.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      rigidBody.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
     }
 
     if (jump) {
@@ -80,9 +81,9 @@ const Cube = (props) => {
       type="dynamic"
       colliders="hull"
       ref={rigidBody}
-      position={[0, 20, 0]}
+      position={[26, 20, -15]}
       friction={0}
-      rotation={[0, -Math.PI / 4, 0]}
+      rotation={[0, 0, 0]}
     >
       <CarArmata scale={3} isMovingRef={isMovingRef} />
     </RigidBody>
