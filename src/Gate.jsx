@@ -1,15 +1,20 @@
 import { Box } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import React from "react";
+import React, { useEffect } from "react";
 import { usePoints } from "./store";
-import {FlagModel} from './FlagModel'
+import { FlagModel } from "./FlagModel";
 
 const Gate = (props) => {
   const { position, rotate, i } = props;
   const data = usePoints();
-  const handleAddScore = (i) => {
-    data.addPoint(i)
-  };
+  useEffect(() => {
+    const timerID = setTimeout(() => {
+        data.setNotification('')
+    }, 5000);
+    return () => {
+        clearTimeout(timerID)
+    }
+  }, [data])
 
   return (
     <>
@@ -18,7 +23,19 @@ const Gate = (props) => {
           sensor
           args={[5, 5, 1]}
           rotation={[0, rotate ? -Math.PI / 2 : 0, 0]}
-          onIntersectionEnter={() => handleAddScore(i)}
+          onIntersectionExit={() => {
+            const rest = [...data.points].slice(0, -1);
+            console.log("asdasd", rest);
+            if (rest.includes(i)) {
+              data.setNotification("Nie w te strone!");
+              return;
+            }
+            data.addPoint(i);
+            if (i === 0) {
+              const date = Date.now();
+              data.setStartTime(new Date(date));
+            }
+          }}
         />
       </RigidBody>
 
@@ -28,8 +45,8 @@ const Gate = (props) => {
         rotation={[0, rotate ? -Math.PI / 2 : 0, 0]}
       >
         <meshStandardMaterial color="blue" wireframe />
-      <FlagModel position={[5,-3,0]} />
-      <FlagModel position={[-5,-3,0]} />
+        <FlagModel position={[5, -3, 0]} />
+        <FlagModel position={[-5, -3, 0]} />
       </Box>
     </>
   );

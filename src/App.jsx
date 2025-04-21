@@ -8,7 +8,6 @@ import { controls } from "./assets/constants";
 import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
 import MenuOverlay from "./MenuOverlay";
 import CameraAnimator from "./CameraAnimator";
-import Gate from "./Gate";
 import Score from "./Score";
 import GatesMap from "./GatesMap";
 
@@ -48,26 +47,26 @@ const App = () => {
           </EffectComposer>
 
           <Physics gravity={[0, -10, 0]}>
-          <Suspense fallback={null}>
-            {!gameStarted ? (
-              <>
-                <CameraAnimator />
-                <Surrounding scale={0.8} position={[0, -2, 0]} />
-              </>
-            ) : (
-              <>
-                <CameraControls
-                  maxPolarAngle={Math.PI / 2}
-                  minDistance={13}
-                  maxDistance={33}
-                  ref={controlsCamera}
-                  makeDefault
-                />
+            <Suspense fallback={null}>
+              {!gameStarted ? (
+                <>
+                  <CameraAnimator />
+                  <Surrounding scale={0.8} position={[0, -2, 0]} />
+                </>
+              ) : (
+                <>
+                  <CameraControls
+                    maxPolarAngle={Math.PI / 2}
+                    minDistance={13}
+                    maxDistance={33}
+                    ref={controlsCamera}
+                    makeDefault
+                  />
                   <Cube controlsCamera={controlsCamera} />
                   <Surrounding />
                   <GatesMap />
-              </>
-            )}
+                </>
+              )}
             </Suspense>
           </Physics>
         </Canvas>

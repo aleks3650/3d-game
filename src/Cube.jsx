@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { CarArmata } from "./CarArmataModel";
+import { usePoints } from "./store";
 
 const Cube = (props) => {
   const [_, get] = useKeyboardControls();
@@ -11,6 +12,7 @@ const Cube = (props) => {
   const isMovingRef = useRef(false);
   const { controlsCamera } = props;
   const rotationSpeed = 2;
+    const {clearPoints} = usePoints();
 
   useFrame((_, delta) => {
     const { forward, backward, left, right, jump } = get();
@@ -23,6 +25,7 @@ const Cube = (props) => {
       rigidBody.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
       rigidBody.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
       rigidBody.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+      clearPoints()
     }
 
     if (jump) {
