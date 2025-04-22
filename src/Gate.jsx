@@ -3,18 +3,19 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useEffect } from "react";
 import { usePoints } from "./store";
 import { FlagModel } from "./FlagModel";
+import { ArrowModel } from "./ArrowModel";
 
 const Gate = (props) => {
-  const { position, rotate, i } = props;
+  const { position, rotate,ArrowDirecion, i } = props;
   const data = usePoints();
   useEffect(() => {
     const timerID = setTimeout(() => {
-        data.setNotification('')
+      data.setNotification("");
     }, 5000);
     return () => {
-        clearTimeout(timerID)
-    }
-  }, [data])
+      clearTimeout(timerID);
+    };
+  }, [data]);
 
   return (
     <>
@@ -47,6 +48,7 @@ const Gate = (props) => {
         <meshStandardMaterial color="blue" wireframe />
         <FlagModel position={[5, -3, 0]} />
         <FlagModel position={[-5, -3, 0]} />
+        <ArrowModel position={[0,2,0]} rotation-y={ArrowDirecion} />
       </Box>
     </>
   );
