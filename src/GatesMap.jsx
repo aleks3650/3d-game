@@ -57,10 +57,11 @@ const GatesMap = () => {
             ArrowDirecion: -Math.PI,
         },
     ]
+    const tableLength = table.length
   return (
     <>
         {table.map((item, i) => (
-            <Gate key={i} position={item.position} rotate={item.rotation} ArrowDirecion={item.ArrowDirecion} i={i} />
+            <Gate key={i} position={item.position} rotate={item.rotation} ArrowDirecion={item.ArrowDirecion} i={i} tableLength={tableLength} />
         ))}
     </>
   );

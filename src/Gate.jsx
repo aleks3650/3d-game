@@ -6,7 +6,7 @@ import { FlagModel } from "./FlagModel";
 import { ArrowModel } from "./ArrowModel";
 
 const Gate = (props) => {
-  const { position, rotate,ArrowDirecion, i } = props;
+  const { position, rotate,ArrowDirecion, i, tableLength } = props;
   const data = usePoints();
   useEffect(() => {
     const timerID = setTimeout(() => {
@@ -16,7 +16,6 @@ const Gate = (props) => {
       clearTimeout(timerID);
     };
   }, [data]);
-
   return (
     <>
       <RigidBody position={position} type="fixed">
@@ -26,12 +25,14 @@ const Gate = (props) => {
           rotation={[0, rotate ? -Math.PI / 2 : 0, 0]}
           onIntersectionExit={() => {
             const rest = [...data.points].slice(0, -1);
-            console.log("asdasd", rest);
             if (rest.includes(i)) {
               data.setNotification("Nie w te strone!");
               return;
             }
             data.addPoint(i);
+            if(data.points.length === tableLength){
+              console.log("ś")
+            }
             if (i === 0) {
               const date = Date.now();
               data.setStartTime(new Date(date));
@@ -45,7 +46,7 @@ const Gate = (props) => {
         args={[10, 10, 2]}
         rotation={[0, rotate ? -Math.PI / 2 : 0, 0]}
       >
-        <meshStandardMaterial color="blue" wireframe />
+        <meshStandardMaterial visible={false} />
         <FlagModel position={[5, -3, 0]} />
         <FlagModel position={[-5, -3, 0]} />
         <ArrowModel position={[0,2,0]} rotation-y={ArrowDirecion} />

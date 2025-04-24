@@ -10,6 +10,7 @@ import MenuOverlay from "./MenuOverlay";
 import CameraAnimator from "./CameraAnimator";
 import Score from "./Score";
 import GatesMap from "./GatesMap";
+import WrongDirMap from "./WrongDirMap";
 
 const App = () => {
   const controlsCamera = useRef(null);
@@ -65,6 +66,7 @@ const App = () => {
                   <Cube controlsCamera={controlsCamera} />
                   <Surrounding />
                   <GatesMap />
+                  <WrongDirMap />
                 </>
               )}
             </Suspense>
