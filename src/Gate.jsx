@@ -1,13 +1,14 @@
 import { Box } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useEffect } from "react";
-import { usePoints } from "./store";
+import {  usePoints } from "./store";
 import { FlagModel } from "./FlagModel";
 import { ArrowModel } from "./ArrowModel";
 
 const Gate = (props) => {
   const { position, rotate,ArrowDirecion, i, tableLength } = props;
   const data = usePoints();
+  
   useEffect(() => {
     const timerID = setTimeout(() => {
       data.setNotification("");
@@ -31,11 +32,17 @@ const Gate = (props) => {
             }
             data.addPoint(i);
             if(data.points.length === tableLength){
-              console.log("ś")
+              const elapsedMs = new Date().getTime() - data.timeStart.getTime();
+              const elapsedSeconds = Math.floor(elapsedMs / 1000);
+              let displayTime = Math.max(0, elapsedSeconds).toString();
+              data.setFinalNotification(`Uzyskany Czas: ${displayTime}s`);
+              data.clearPoints()
             }
             if (i === 0) {
               const date = Date.now();
               data.setStartTime(new Date(date));
+              data.setFinalNotification('')
+              data.startPoints()
             }
           }}
         />

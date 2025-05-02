@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { usePoints } from "./store";
+import { useCarReference, usePoints } from "./store";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { useKeyboardControls } from "@react-three/drei";
 
 const Score = ({ gameStarted }) => {
   const data = usePoints();
-  const { points, timeStart, notification } = data;
+  const rigidBodyRef = useCarReference((s) => s.carRef)
+  const [sub, _get] = useKeyboardControls();
+
+  useEffect(() => {
+    return sub(
+      (state) => state.reset,
+        (pressed) => {
+          if(!pressed) return
+          console.log('reset', pressed)
+          clearPoints()
+          setNotification('')
+          setFinalNotification('')
+          clearPoints()
+          clearTime()
+          rigidBodyRef.current.setTranslation({ x: 26, y: 20, z: -15 }, true);
+          rigidBodyRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+          rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+          rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+        })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sub]);
+  const { points, timeStart, notification, finalNotification, clearPoints, setNotification, setFinalNotification,clearTime } = data;
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -14,9 +36,10 @@ const Score = ({ gameStarted }) => {
       interval = setInterval(() => {
         setCurrentTime(new Date());
       }, 1000);
+      if(finalNotification) clearTimeout(interval)
     }
     return () => clearInterval(interval);
-  }, [gameStarted, timeStart]);
+  }, [gameStarted, timeStart, finalNotification]);
 
   let displayTime = "Nie rozpoczęto";
   if (timeStart) {
@@ -27,6 +50,49 @@ const Score = ({ gameStarted }) => {
 
   return (
     <>
+      <AnimatePresence>
+        {finalNotification && (
+                    <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 100 }}
+                    layout
+                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    className="fixed top-1/2 right-1/2 translate-x-1/2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
+                     p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shadow-2xl 
+                     border border-white/10 text-5xl -translate-y-10/12"
+                  >
+                    <span>Ukończono tego typu: {finalNotification}</span>
+                  </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {gameStarted && (
+                <motion.div
+                onClick={() => {
+                  clearPoints()
+                  setNotification('')
+                  setFinalNotification('')
+                  clearPoints()
+                  clearTime()
+                  rigidBodyRef.current.setTranslation({ x: 26, y: 20, z: -15 }, true);
+                  rigidBodyRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+                  rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+                  rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+                }}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                className="fixed top-2 left-2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
+                 p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shad
+                 border border-white/10 text-2xl cursor-pointer"
+              >
+                <span>Reset</span>
+              </motion.div>
+        )}
+    </AnimatePresence>
+      
       <AnimatePresence>
         {gameStarted && (
           <motion.div
