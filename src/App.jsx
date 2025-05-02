@@ -1,4 +1,4 @@
-import { CameraControls, KeyboardControls, Loader } from "@react-three/drei";
+import { CameraControls, KeyboardControls, Loader, Stats } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Cube from "./Cube";
@@ -39,6 +39,7 @@ const App = () => {
           }}
           shadows
         >
+          <Stats />
           <EffectComposer>
             <DepthOfField
               focusDistance={0.01}
@@ -47,7 +48,7 @@ const App = () => {
             />
           </EffectComposer>
 
-          <Physics gravity={[0, -10, 0]}>
+          <Physics gravity={[0, -10, 0]} debug>
             <Suspense fallback={null}>
               {!gameStarted ? (
                 <>
