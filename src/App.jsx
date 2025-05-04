@@ -1,5 +1,5 @@
-import { CameraControls, KeyboardControls, Loader, Stats } from "@react-three/drei";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import { CameraControls, Html, KeyboardControls, Loader, Stats } from "@react-three/drei";
+import React, { startTransition, Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Cube from "./Cube";
 import Surrounding from "./Surrounding";
@@ -28,10 +28,16 @@ const App = () => {
     animateCamera();
   }, [gameStarted]);
 
+  const handleStart = () => {
+    startTransition(() => {
+      setGameStarted(true);
+    });
+  };
+
   return (
     <>
       <KeyboardControls map={controls}>
-        {!gameStarted && <MenuOverlay onStart={() => setGameStarted(true)} />}
+        {!gameStarted && <MenuOverlay onStart={handleStart} />}
         <Canvas
           style={{ height: "100dvh" }}
           camera={{
@@ -50,10 +56,12 @@ const App = () => {
 
           <Physics gravity={[0, -10, 0]} debug>
             <Suspense fallback={null}>
+              <Surrounding />
+              <GatesMap />
+              <WrongDirMap />
               {!gameStarted ? (
                 <>
                   <CameraAnimator />
-                  <Surrounding scale={0.8} position={[0, -2, 0]} />
                 </>
               ) : (
                 <>
@@ -65,9 +73,6 @@ const App = () => {
                     makeDefault
                   />
                   <Cube controlsCamera={controlsCamera} />
-                  <Surrounding />
-                  <GatesMap />
-                  <WrongDirMap />
                 </>
               )}
             </Suspense>

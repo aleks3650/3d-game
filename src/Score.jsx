@@ -60,9 +60,10 @@ const Score = ({ gameStarted }) => {
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className="fixed top-1/2 right-1/2 translate-x-1/2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
                      p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shadow-2xl 
-                     border border-white/10 text-5xl -translate-y-10/12"
+                     border border-white/10 text-4xl -translate-y-10/12"
                   >
-                    <span>Ukończono tego typu: {finalNotification}</span>
+                    <span>Ukończono tego typu: </span>
+                    <span>{finalNotification}</span>
                   </motion.div>
         )}
       </AnimatePresence>
