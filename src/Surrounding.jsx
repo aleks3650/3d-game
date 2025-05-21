@@ -1,8 +1,7 @@
 import { Environment, Sky } from "@react-three/drei";
 import React from "react";
 import { City } from "./CityModel";
-import {Elements} from "./Elements";
-// import { City } from "./CityModelOld";
+import { Elements } from "./Elements";
 
 const Surrounding = () => {
   return (

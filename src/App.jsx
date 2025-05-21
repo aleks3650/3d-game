@@ -11,6 +11,7 @@ import CameraAnimator from "./CameraAnimator";
 import Score from "./Score";
 import GatesMap from "./GatesMap";
 import WrongDirMap from "./WrongDirMap";
+import {  Buildings } from "./BuildingsModel";
 
 const App = () => {
   const controlsCamera = useRef(null);
@@ -54,7 +55,7 @@ const App = () => {
             />
           </EffectComposer>
 
-          <Physics gravity={[0, -10, 0]} debug>
+          <Physics gravity={[0, -10, 0]} >
             <Suspense fallback={null}>
               <Surrounding />
               <GatesMap />
@@ -66,13 +67,14 @@ const App = () => {
               ) : (
                 <>
                   <CameraControls
-                    maxPolarAngle={Math.PI / 2}
+                    maxPolarAngle={Math.PI / 2.1}
                     minDistance={13}
                     maxDistance={33}
                     ref={controlsCamera}
                     makeDefault
                   />
                   <Cube controlsCamera={controlsCamera} />
+                  <Buildings controlsCamera={controlsCamera} />
                 </>
               )}
             </Suspense>

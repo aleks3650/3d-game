@@ -30,6 +30,7 @@ const Gate = (props) => {
               data.setNotification("Nie w te strone!");
               return;
             }
+            data.setNotification("")
             data.addPoint(i);
             if(data.points.length === tableLength){
               const elapsedMs = new Date().getTime() - data.timeStart.getTime();

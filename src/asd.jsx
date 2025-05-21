@@ -8,13 +8,11 @@ Title: City
 
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
-import { RigidBody } from '@react-three/rapier'
 
-export function City(props) {
+export function Model(props) {
   const { nodes, materials } = useGLTF('/City.glb')
   return (
-    <RigidBody type="fixed" colliders="hull">
-    <group {...props} dispose={null}> 
+    <group {...props} dispose={null}>
       <group scale={0.01}>
         <group
           position={[-2217.556, 817.21, 586.848]}
@@ -2756,7 +2754,7 @@ export function City(props) {
             scale={0.782}
           />
         </group>
-        {/* <group
+        <group
           position={[-144.672, 1192.148, -2276.354]}
           rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
           scale={192.136}>
@@ -2764,9 +2762,8 @@ export function City(props) {
             castShadow
             receiveShadow
             geometry={nodes.Palazzo_Giallo_Color_0.geometry}
-            // material={transparentMaterial}
             material={materials.Color}
-            />
+          />
           <group position={[-1.545, -1.554, 7.85]} scale={[0.253, 0.42, 0.245]}>
             <mesh
               castShadow
@@ -2949,7 +2946,7 @@ export function City(props) {
             rotation={[0, 0, -1.308]}
             scale={1.198}
           />
-        </group> */}
+        </group>
         <group
           position={[-2439.201, 1084.037, 1738.794]}
           rotation={[-Math.PI / 2, 0, -Math.PI]}
@@ -4675,6 +4672,196 @@ export function City(props) {
             material={materials.Texture_varie}
             position={[7.735, -9.151, 1.844]}
             scale={[1, 1.08, 1]}
+          />
+        </group>
+        <group
+          position={[2271.923, 1170.085, -2223.347]}
+          rotation={[-Math.PI / 2, 0, -2.186]}
+          scale={178.827}>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Palazzo_blu_Color_0.geometry}
+            material={materials.Color}
+          />
+          <group
+            position={[0.875, -0.019, 6.717]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.119, 0.201, 0.201]}>
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Vaso_siepe_01002_Color_0.geometry}
+              material={materials.Color}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Siepe_01002_Color_0.geometry}
+              material={materials.Color}
+              position={[0, -0.001, 0.535]}
+              scale={0.957}
+            />
+          </group>
+          <group
+            position={[0.429, -1.46, 6.717]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.145, 0.245, 0.245]}>
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Vaso_siepe_01003_Color_0.geometry}
+              material={materials.Color}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Siepe_01003_Color_0.geometry}
+              material={materials.Color}
+              position={[0, -0.001, 0.535]}
+              scale={0.957}
+            />
+          </group>
+          <group
+            position={[0.41, 1.468, 6.717]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.145, 0.245, 0.245]}>
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Vaso_siepe_01004_Color_0.geometry}
+              material={materials.Color}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Siepe_01004_Color_0.geometry}
+              material={materials.Color}
+              position={[0, -0.001, 0.535]}
+              scale={0.957}
+            />
+          </group>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Camino_01001_Color_0.geometry}
+            material={materials.Color}
+            position={[-0.607, -1.868, 6.86]}
+            rotation={[0, 0, Math.PI / 2]}
+            scale={0.124}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Camino_02001_Color_0.geometry}
+            material={materials.Color}
+            position={[-0.056, -1.868, 6.86]}
+            rotation={[0, 0, Math.PI / 2]}
+            scale={0.124}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Antenna_01005_Color_0.geometry}
+            material={materials.Color}
+            position={[-1.68, 1.111, 7.059]}
+            rotation={[0, 0, -2.157]}
+            scale={1.287}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Condizionatore_cafe_01001_Color_0.geometry}
+            material={materials.Color}
+            position={[-0.274, 1.617, 6.854]}
+            rotation={[0, 0, Math.PI]}
+            scale={0.374}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Condizionatore_cafe_01002_Color_0.geometry}
+            material={materials.Color}
+            position={[-1.132, 1.617, 6.854]}
+            rotation={[0, 0, Math.PI]}
+            scale={0.374}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01005_Color_0.geometry}
+            material={materials.Color}
+            position={[0.717, 1.553, 6.071]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01006_Color_0.geometry}
+            material={materials.Color}
+            position={[0.717, 1.553, 4.012]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01007_Color_0.geometry}
+            material={materials.Color}
+            position={[0.717, 1.553, -0.08]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01008_Color_0.geometry}
+            material={materials.Color}
+            position={[0.669, -1.593, 1.977]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01009_Color_0.geometry}
+            material={materials.Color}
+            position={[0.669, -1.593, 3.015]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01010_Color_0.geometry}
+            material={materials.Color}
+            position={[0.669, -1.593, 0.939]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Siepe_01011_Color_0.geometry}
+            material={materials.Color}
+            position={[0.669, -1.593, 6.087]}
+            rotation={[0, 0, -0.015]}
+            scale={[0.138, 0.143, 0.234]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Tetto02004_Color_0.geometry}
+            material={materials.Color}
+            position={[-0.467, 0, -2.75]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Entrata004_Color_0.geometry}
+            material={materials.Color}
+            position={[0.757, 0, -1.293]}
           />
         </group>
         <group position={[-4282.396, 755.2, -2557.155]} rotation={[-Math.PI / 2, 0, 0]} scale={100}>
@@ -8271,7 +8458,231 @@ export function City(props) {
           rotation={[-Math.PI / 2, 0, -Math.PI]}
           scale={136.591}
         />
-
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01001_Color_0.geometry}
+          material={materials.Color}
+          position={[-1953.838, 866.542, 3827.609]}
+          rotation={[-Math.PI / 2, 0, 1.552]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_03001_Color_0.geometry}
+          material={materials.Color}
+          position={[-1351.305, 861.398, 4735.48]}
+          rotation={[-Math.PI / 2, 0, -3.137]}
+          scale={[115.453, 115.453, 130.568]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02001_Color_0.geometry}
+          material={materials.Color}
+          position={[-1069.777, 856.263, 3533.188]}
+          rotation={[-1.57, 0.003, -1.651]}
+          scale={[108.734, 108.734, 122.969]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01002_Color_0.geometry}
+          material={materials.Color}
+          position={[-1062.165, 866.679, 4445.899]}
+          rotation={[-Math.PI / 2, 0, -1.517]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_03002_Color_0.geometry}
+          material={materials.Color}
+          position={[-4188.248, 871.969, 2070.985]}
+          rotation={[-Math.PI / 2, 0, 0.096]}
+          scale={[115.453, 115.453, 130.568]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01003_Color_0.geometry}
+          material={materials.Color}
+          position={[-3765.702, 876.822, 2068.646]}
+          rotation={[-Math.PI / 2, 0, 0.054]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01004_Color_0.geometry}
+          material={materials.Color}
+          position={[-1066.5, 866.542, 3213.812]}
+          rotation={[-Math.PI / 2, 0, -1.547]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_03003_Color_0.geometry}
+          material={materials.Color}
+          position={[-1948.423, 861.398, 4132.357]}
+          rotation={[-Math.PI / 2, 0, 1.575]}
+          scale={[115.453, 115.453, 130.568]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01005_Color_0.geometry}
+          material={materials.Color}
+          position={[-2650.419, 875.323, -2015.3]}
+          rotation={[-Math.PI / 2, 0, -3.117]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02002_Color_0.geometry}
+          material={materials.Color}
+          position={[-2937.48, 863.928, -2017.485]}
+          rotation={[-1.567, -0.001, -3.067]}
+          scale={[108.734, 108.734, 122.969]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02003_Color_0.geometry}
+          material={materials.Color}
+          position={[1865.862, 871.482, -1238.613]}
+          rotation={[-1.57, 0.003, -1.586]}
+          scale={[134.228, 134.228, 151.801]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01006_Color_0.geometry}
+          material={materials.Color}
+          position={[-1895.073, 873.214, -198.799]}
+          rotation={[-Math.PI / 2, 0, -1.552]}
+          scale={114.832}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02005_Color_0.geometry}
+          material={materials.Color}
+          position={[-2462.691, 871.733, 5286.931]}
+          rotation={[-1.572, -0.003, 1.575]}
+          scale={[134.228, 134.228, 151.801]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02006_Color_0.geometry}
+          material={materials.Color}
+          position={[938.471, 871.482, 3326.47]}
+          rotation={[-1.574, 0.001, 0.033]}
+          scale={[134.228, 134.228, 151.801]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01007_Color_0.geometry}
+          material={materials.Color}
+          position={[-4345.301, 862.88, -2387.475]}
+          rotation={[-Math.PI / 2, 0, -1.547]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_02004_Color_0.geometry}
+          material={materials.Color}
+          position={[-3565.826, 902.02, 398.548]}
+          rotation={[-1.567, 0, -2.996]}
+          scale={[145.892, 145.892, 164.992]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_01008_Color_0.geometry}
+          material={materials.Color}
+          position={[-3323.092, 876.822, -179.771]}
+          rotation={[-Math.PI / 2, 0, -1.517]}
+          scale={103.874}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Rimorchio001_Color_0.geometry}
+          material={materials.Color}
+          position={[-3307.786, 945.143, -2702.521]}
+          rotation={[-Math.PI / 2, 0, -Math.PI]}
+          scale={[100, 92.379, 100]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Rimorchio002_Color_0.geometry}
+          material={materials.Color}
+          position={[-1108.717, 945.143, 407.596]}
+          rotation={[-Math.PI / 2, 0, Math.PI / 2]}
+          scale={[100, 92.379, 100]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Taxi001_Color_0.geometry}
+          material={materials.Color}
+          position={[-176.415, 873.847, 2804.691]}
+          rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
+          scale={117.891}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Taxi002_Color_0.geometry}
+          material={materials.Color}
+          position={[-1100.107, 867.335, -1801.653]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          scale={117.891}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Taxi003_Color_0.geometry}
+          material={materials.Color}
+          position={[-5433.662, 867.335, 2949.457]}
+          rotation={[-Math.PI / 2, 0, -Math.PI]}
+          scale={117.891}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_polizia001_Color_0.geometry}
+          material={materials.Color}
+          position={[-5165.982, 821.353, 2083.488]}
+          rotation={[-1.557, 0, -Math.PI]}
+          scale={95.16}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_polizia002_Color_0.geometry}
+          material={materials.Color}
+          position={[-5142.649, 821.353, 1547.2]}
+          rotation={[-1.557, 0, -Math.PI]}
+          scale={95.16}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Macchina_polizia003_Color_0.geometry}
+          material={materials.Color}
+          position={[-4905.178, 821.353, 2497.354]}
+          rotation={[-1.566, 0.013, -1.962]}
+          scale={95.16}
+        />
         <mesh
           castShadow
           receiveShadow
@@ -10368,7 +10779,15 @@ export function City(props) {
           rotation={[0, -Math.PI / 2, 0]}
           scale={120.178}
         />
-        
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane009_Texture_varie_0.geometry}
+          material={materials.Texture_varie}
+          position={[-603.964, 993.964, -2492.093]}
+          rotation={[0, -Math.PI / 2, 0]}
+          scale={152.304}
+        />
         <mesh
           castShadow
           receiveShadow
@@ -10433,7 +10852,7 @@ export function City(props) {
           scale={100}
         />
       </group>
-    </group></RigidBody>
+    </group>
   )
 }
 
