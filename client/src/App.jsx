@@ -11,7 +11,8 @@ import CameraAnimator from "./CameraAnimator";
 import Score from "./Score";
 import GatesMap from "./GatesMap";
 import WrongDirMap from "./WrongDirMap";
-import {  Buildings } from "./BuildingsModel";
+import { Buildings } from "./BuildingsModel";
+import SocketManager from "./SocketManager";
 
 const App = () => {
   const controlsCamera = useRef(null);
@@ -34,9 +35,9 @@ const App = () => {
       setGameStarted(true);
     });
   };
-
   return (
     <>
+      <SocketManager />
       <KeyboardControls map={controls}>
         {!gameStarted && <MenuOverlay onStart={handleStart} />}
         <Canvas
@@ -60,6 +61,8 @@ const App = () => {
               <Surrounding />
               <GatesMap />
               <WrongDirMap />
+              <Cube controlsCamera={controlsCamera} />
+              <Buildings controlsCamera={controlsCamera} />
               {!gameStarted ? (
                 <>
                   <CameraAnimator />
@@ -73,8 +76,6 @@ const App = () => {
                     ref={controlsCamera}
                     makeDefault
                   />
-                  <Cube controlsCamera={controlsCamera} />
-                  <Buildings controlsCamera={controlsCamera} />
                 </>
               )}
             </Suspense>

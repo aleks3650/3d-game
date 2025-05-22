@@ -16,6 +16,7 @@ const Cube = (props) => {
     const {clearPoints} = usePoints();
 
   useFrame((_, delta) => {
+    if(!controlsCamera.current) return
     const { forward, backward, left, right, jump } = get();
     const { x, y, z } = rigidBodyRef.current.translation();
     const quaternion = rigidBodyRef.current.rotation();

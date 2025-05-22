@@ -63,6 +63,7 @@ export function Buildings({ controlsCamera }) {
   }, [buildingNames, nodes])
 
   useFrame(() => {
+    if(!controlsCamera.current) return
     const camPos = controlsCamera.current.camera.position
     boxes.current.forEach(({ mesh, box }) => {
       mesh.material.opacity = box.containsPoint(camPos) ? 0.2 : 1.0
