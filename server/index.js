@@ -4,25 +4,46 @@ const io = new Server({
     cors: {
         origin: "http://localhost:5173"
     }
-})
+});
 
-io.listen(3001)
+io.listen(3001);
 
-const users = []
+let cars = {};
+
+setInterval(() => {
+    console.log('Active cars:', Object.keys(cars).length);
+}, 5000);
 
 io.on('connection', (socket) => {
-    console.log('user connected')
+    const userId = socket.id;
+    console.log('User connected:', userId);
 
-    users.push({
-        id: socket.id,
-    })
-    socket.emit("hello")
+    cars[userId] = {
+        position: [26, 20, -15],
+        rotation: [0, 0, 0, 1]
+    };
 
-    socket.on("disconnect", () => {
-        console.log("user disconnected")
-        users.splice(
-            users.findIndex((user) => user.id === socket.id), 1
-        )
-        io.emit("users: ", users)
-    })
-})
+    socket.emit('carsUpdate', cars);
+    
+    // Notify other users about new connection
+    socket.broadcast.emit('userConnected', userId);
+
+    // Handle car position updates
+    socket.on('carUpdate', (data) => {
+        if (cars[userId]) {
+            cars[userId] = {
+                position: data.position,
+                rotation: data.rotation
+            };
+            // Broadcast to all other clients
+            socket.broadcast.emit('carsUpdate', cars);
+        }
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', userId);
+        delete cars[userId];
+        socket.broadcast.emit('userDisconnected', userId);
+    });
+});

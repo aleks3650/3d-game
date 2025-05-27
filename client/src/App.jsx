@@ -13,28 +13,40 @@ import GatesMap from "./GatesMap";
 import WrongDirMap from "./WrongDirMap";
 import { Buildings } from "./BuildingsModel";
 import SocketManager from "./SocketManager";
+import { useCarStore } from "./store";
 
 const App = () => {
   const controlsCamera = useRef(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const { cars, localId, localCarRef } = useCarStore();
 
   useEffect(() => {
-    if (!gameStarted) return;
-    const animateCamera = () => {
-      if (controlsCamera.current) {
-        controlsCamera.current.setLookAt(12, 8, 12, 0, 0.5, 0, true);
-      } else {
-        requestAnimationFrame(animateCamera);
+    if (!gameStarted || !localCarRef || !controlsCamera.current) return;
+    
+    // Wait a bit for physics to settle, then position camera
+    const timer = setTimeout(() => {
+      if (controlsCamera.current && localCarRef) {
+        const position = localCarRef.translation();
+        controlsCamera.current.setLookAt(
+          position.x, position.y + 8, position.z + 12, 
+          position.x, position.y, position.z, 
+          true
+        );
       }
-    };
-    animateCamera();
-  }, [gameStarted]);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [gameStarted, localCarRef]);
 
   const handleStart = () => {
     startTransition(() => {
       setGameStarted(true);
     });
   };
+
+  // Only render cars when we have localId
+  const shouldRenderCars = localId && Object.keys(cars).length > 0;
+
   return (
     <>
       <SocketManager />
@@ -42,9 +54,7 @@ const App = () => {
         {!gameStarted && <MenuOverlay onStart={handleStart} />}
         <Canvas
           style={{ height: "100dvh" }}
-          camera={{
-            fov: 50,
-          }}
+          camera={{ fov: 50 }}
           shadows
         >
           <Stats />
@@ -56,27 +66,32 @@ const App = () => {
             />
           </EffectComposer>
 
-          <Physics gravity={[0, -10, 0]} >
+          <Physics gravity={[0, -10, 0]}>
             <Suspense fallback={null}>
               <Surrounding />
               <GatesMap />
               <WrongDirMap />
-              <Cube controlsCamera={controlsCamera} />
+
+              {shouldRenderCars && Object.entries(cars).map(([id, carState]) => (
+                <Cube 
+                  key={id} 
+                  controlsCamera={controlsCamera}
+                  isLocal={id === localId}
+                  carState={carState}
+                />
+              ))}
+
               <Buildings controlsCamera={controlsCamera} />
               {!gameStarted ? (
-                <>
-                  <CameraAnimator />
-                </>
+                <CameraAnimator />
               ) : (
-                <>
-                  <CameraControls
-                    maxPolarAngle={Math.PI / 2.1}
-                    minDistance={13}
-                    maxDistance={33}
-                    ref={controlsCamera}
-                    makeDefault
-                  />
-                </>
+                <CameraControls
+                  maxPolarAngle={Math.PI / 2.1}
+                  minDistance={13}
+                  maxDistance={33}
+                  ref={controlsCamera}
+                  makeDefault
+                />
               )}
             </Suspense>
           </Physics>

@@ -1,33 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { useCarReference, usePoints } from "./store";
+import { useCarStore, usePoints } from "./store";
 // eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useKeyboardControls } from "@react-three/drei";
 
 const Score = ({ gameStarted }) => {
   const data = usePoints();
-  const rigidBodyRef = useCarReference((s) => s.carRef)
+  const { localCarRef } = useCarStore();
   const [sub, _get] = useKeyboardControls();
+
+  const resetCar = () => {
+    if (localCarRef) {
+      localCarRef.setTranslation({ x: 26, y: 20, z: -15 }, true);
+      localCarRef.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+      localCarRef.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      localCarRef.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    }
+  };
 
   useEffect(() => {
     return sub(
       (state) => state.reset,
-        (pressed) => {
-          if(!pressed) return
-          console.log('reset', pressed)
-          clearPoints()
-          setNotification('')
-          setFinalNotification('')
-          clearPoints()
-          clearTime()
-          rigidBodyRef.current.setTranslation({ x: 26, y: 20, z: -15 }, true);
-          rigidBodyRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
-          rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-          rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-        })
+      (pressed) => {
+        if (!pressed) return;
+        clearPoints();
+        setNotification('');
+        setFinalNotification('');
+        clearTime();
+        resetCar();
+      }
+    );
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sub]);
-  const { points, timeStart, notification, finalNotification, clearPoints, setNotification, setFinalNotification,clearTime } = data;
+
+  const { 
+    points, 
+    timeStart, 
+    notification, 
+    finalNotification, 
+    clearPoints, 
+    setNotification, 
+    setFinalNotification, 
+    clearTime 
+  } = data;
+  
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -36,7 +52,7 @@ const Score = ({ gameStarted }) => {
       interval = setInterval(() => {
         setCurrentTime(new Date());
       }, 1000);
-      if(finalNotification) clearTimeout(interval)
+      if (finalNotification) clearTimeout(interval);
     }
     return () => clearInterval(interval);
   }, [gameStarted, timeStart, finalNotification]);
@@ -48,51 +64,50 @@ const Score = ({ gameStarted }) => {
     displayTime = Math.max(0, elapsedSeconds).toString();
   }
 
+  const handleReset = () => {
+    clearPoints();
+    setNotification('');
+    setFinalNotification('');
+    clearTime();
+    resetCar();
+  };
+
   return (
     <>
       <AnimatePresence>
         {finalNotification && (
-                    <motion.div
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 100 }}
-                    layout
-                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                    className="fixed top-1/2 right-1/2 translate-x-1/2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
-                     p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shadow-2xl 
-                     border border-white/10 text-4xl -translate-y-10/12"
-                  >
-                    <span>Ukończono tego typu: </span>
-                    <span>{finalNotification}</span>
-                  </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            layout
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="fixed top-1/2 right-1/2 translate-x-1/2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
+             p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shadow-2xl 
+             border border-white/10 text-4xl -translate-y-10/12"
+          >
+            <span>Ukończono tego typu: </span>
+            <span>{finalNotification}</span>
+          </motion.div>
         )}
       </AnimatePresence>
+
       <AnimatePresence>
         {gameStarted && (
-                <motion.div
-                onClick={() => {
-                  clearPoints()
-                  setNotification('')
-                  setFinalNotification('')
-                  clearPoints()
-                  clearTime()
-                  rigidBodyRef.current.setTranslation({ x: 26, y: 20, z: -15 }, true);
-                  rigidBodyRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
-                  rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-                  rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-                }}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                className="fixed top-2 left-2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
-                 p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shad
-                 border border-white/10 text-2xl cursor-pointer"
-              >
-                <span>Reset</span>
-              </motion.div>
+          <motion.div
+            onClick={handleReset}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="fixed top-2 left-2 bg-gradient-to-b from-gray-900/60 to-gray-800/60
+             p-4 rounded-2xl text-white text-center flex flex-col items-center space-y-2 backdrop-blur-sm shadow-2xl
+             border border-white/10 text-2xl cursor-pointer hover:from-gray-800/60 hover:to-gray-700/60 transition-all"
+          >
+            <span>Reset</span>
+          </motion.div>
         )}
-    </AnimatePresence>
+      </AnimatePresence>
       
       <AnimatePresence>
         {gameStarted && (
