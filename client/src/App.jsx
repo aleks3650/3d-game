@@ -22,20 +22,12 @@ const App = () => {
 
   useEffect(() => {
     if (!gameStarted || !localCarRef || !controlsCamera.current) return;
-    
-    // Wait a bit for physics to settle, then position camera
-    const timer = setTimeout(() => {
-      if (controlsCamera.current && localCarRef) {
-        const position = localCarRef.translation();
-        controlsCamera.current.setLookAt(
-          position.x, position.y + 8, position.z + 12, 
-          position.x, position.y, position.z, 
-          true
-        );
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
+      const position = localCarRef.translation();
+      controlsCamera.current.setLookAt(
+        position.x, position.y + 8, position.z + 12,
+        position.x, position.y, position.z,
+        true
+      );
   }, [gameStarted, localCarRef]);
 
   const handleStart = () => {
@@ -44,8 +36,7 @@ const App = () => {
     });
   };
 
-  // Only render cars when we have localId
-  const shouldRenderCars = localId && Object.keys(cars).length > 0;
+  console.log('Cars:', cars, 'LocalId:', localId);
 
   return (
     <>
@@ -72,9 +63,10 @@ const App = () => {
               <GatesMap />
               <WrongDirMap />
 
-              {shouldRenderCars && Object.entries(cars).map(([id, carState]) => (
-                <Cube 
-                  key={id} 
+              {/* Uproszczone renderowanie samochodów */}
+              {Object.entries(cars).map(([id, carState]) => (
+                <Cube
+                  key={id}
                   controlsCamera={controlsCamera}
                   isLocal={id === localId}
                   carState={carState}

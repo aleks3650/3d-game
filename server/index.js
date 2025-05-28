@@ -25,25 +25,24 @@ io.on('connection', (socket) => {
 
     socket.emit('carsUpdate', cars);
     
-    // Notify other users about new connection
     socket.broadcast.emit('userConnected', userId);
+    socket.broadcast.emit('carsUpdate', cars);
 
-    // Handle car position updates
     socket.on('carUpdate', (data) => {
         if (cars[userId]) {
             cars[userId] = {
                 position: data.position,
                 rotation: data.rotation
             };
-            // Broadcast to all other clients
             socket.broadcast.emit('carsUpdate', cars);
         }
     });
 
-    // Handle disconnection
     socket.on('disconnect', () => {
         console.log('User disconnected:', userId);
         delete cars[userId];
+        
         socket.broadcast.emit('userDisconnected', userId);
+        socket.broadcast.emit('carsUpdate', cars);
     });
 });

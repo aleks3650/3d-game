@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useCarStore, usePoints } from "./store";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import { useKeyboardControls } from "@react-three/drei";
 
 const Score = ({ gameStarted }) => {
   const data = usePoints();
   const { localCarRef } = useCarStore();
-  const [sub, _get] = useKeyboardControls();
-
   const resetCar = () => {
     if (localCarRef) {
       localCarRef.setTranslation({ x: 26, y: 20, z: -15 }, true);
@@ -17,21 +14,6 @@ const Score = ({ gameStarted }) => {
       localCarRef.setAngvel({ x: 0, y: 0, z: 0 }, true);
     }
   };
-
-  useEffect(() => {
-    return sub(
-      (state) => state.reset,
-      (pressed) => {
-        if (!pressed) return;
-        clearPoints();
-        setNotification('');
-        setFinalNotification('');
-        clearTime();
-        resetCar();
-      }
-    );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sub]);
 
   const { 
     points, 
@@ -65,6 +47,7 @@ const Score = ({ gameStarted }) => {
   }
 
   const handleReset = () => {
+    console.log("first")
     clearPoints();
     setNotification('');
     setFinalNotification('');
